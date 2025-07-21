@@ -3,7 +3,7 @@ import { OrbitControls, Environment } from '@react-three/drei';
 import { ModeloGLB } from './components/ModeloGLB.jsx';
 import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './styles/global.css';
 import './components/Controls.css';
 
@@ -22,7 +22,48 @@ function CameraSetup() {
 function App() {
   const [currentAnimation, setCurrentAnimation] = useState(null);
   const [panelExpanded, setPanelExpanded] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   
+  // Referencias de audio
+  const audioRefs = useRef({
+    open: typeof Audio !== 'undefined' ? new Audio('/sounds/panel-open.mp3') : null,
+    close: typeof Audio !== 'undefined' ? new Audio('/sounds/panel-close.mp3') : null,
+    action: typeof Audio !== 'undefined' ? new Audio('/sounds/action-select.mp3') : null
+  });
+
+  // Precarga y configuración de sonidos
+  useEffect(() => {
+    Object.values(audioRefs.current).forEach(audio => {
+      if (audio) {
+        audio.volume = 0.3;
+        audio.load();
+      }
+    });
+  }, []);
+
+  const playSound = (type) => {
+    if (isMuted || !audioRefs.current[type]) return;
+    
+    try {
+      const sound = audioRefs.current[type];
+      sound.currentTime = 0;
+      sound.play().catch(e => console.log("Auto-play prevented:", e));
+    } catch (error) {
+      console.error("Error con el sonido:", error);
+    }
+  };
+
+  const togglePanel = () => {
+    const willExpand = !panelExpanded;
+    setPanelExpanded(willExpand);
+    playSound(willExpand ? 'open' : 'close');
+  };
+
+  const selectAction = (actionName) => {
+    setCurrentAnimation(actionName);
+    playSound('action');
+  };
+
   const animations = [
     { name: 'idl', label: 'STANDBY' },
     { name: 'figth', label: 'ENGAGE' },
@@ -73,35 +114,54 @@ function App() {
 
       {/* Panel desplegable */}
       <div className={`panel-container ${panelExpanded ? 'expanded' : ''}`}>
-  <div className="controls-panel">
-    {animations.map((anim) => (
-      <button
-        key={anim.name}
-        className={`control-button ${currentAnimation === anim.name ? 'active' : ''}`}
-        onClick={() => setCurrentAnimation(anim.name)}
-      >
-        <span>{anim.label}</span>
-      </button>
-    ))}
-  </div>
-  <button 
-    className="panel-trigger"
-    onClick={() => setPanelExpanded(!panelExpanded)}
-  >
-    {panelExpanded ? '◄' : '►'}
-  </button>
-</div>
+        <div className="controls-panel">
+          {animations.map((anim) => (
+            <button
+              key={anim.name}
+              onClick={() => selectAction(anim.name)}
+              className={`control-button ${currentAnimation === anim.name ? 'active' : ''}`}
+            >
+              <span>{anim.label}</span>
+            </button>
+          ))}
+        </div>
+        <button 
+          className="panel-trigger"
+          onClick={togglePanel}
+        >
+          {panelExpanded ? '◄' : '►'}
+        </button>
+      </div>
 
-<div className="status-indicator">
-  <div className="status-dot"></div>
-  <span>{currentAnimation || 'STANDBY'}</span>
-</div>
-
-      {/* Indicador de estado simplificado */}
+      {/* Indicador de estado */}
       <div className="status-indicator">
         <div className={`status-dot ${currentAnimation ? 'active' : ''}`}></div>
-        {currentAnimation || 'STANDBY'}
+        <span>{currentAnimation || 'STANDBY'}</span>
       </div>
+
+      {/* Botón de mute (opcional) */}
+      <button 
+        className="mute-button"
+        onClick={() => setIsMuted(!isMuted)}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 100,
+          background: '#1a1a1a',
+          color: '#ffcc00',
+          border: '1px solid #ffcc00',
+          borderRadius: '50%',
+          width: '40px',
+          height: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer'
+        }}
+      >
+        {isMuted ? '🔇' : '🔊'}
+      </button>
     </div>
   );
 }

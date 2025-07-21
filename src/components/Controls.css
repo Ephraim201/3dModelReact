@@ -1,5 +1,5 @@
-/* CONTROLS.CSS - VERSIÓN AMARILLO/NEGRO */
-/* ==================================== */
+/* CONTROLS.CSS - VERSIÓN FINAL */
+/* =========================== */
 
 /* Panel Container */
 .panel-container {
@@ -25,14 +25,14 @@
   transform: translateY(-50%);
   width: 40px;
   height: 80px;
-  background: #1a1a1a; /* Negro sólido */
+  background: #1a1a1a;
   border: none;
   border-radius: 0 8px 8px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffcc00; /* Amarillo */
+  color: #ffcc00;
   font-size: 18px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
@@ -47,7 +47,7 @@
 .controls-panel {
   width: 260px;
   height: 100%;
-  background: #1a1a1a; /* Negro sólido */
+  background: #1a1a1a;
   padding: 20px 0;
   overflow-y: auto;
   border-right: 1px solid #333;
@@ -61,7 +61,7 @@
   border: none;
   border-radius: 0;
   background: transparent;
-  color: #e6e6e6; /* Gris claro */
+  color: #e6e6e6;
   font-size: 14px;
   font-family: 'Segoe UI', sans-serif;
   text-align: left;
@@ -77,9 +77,9 @@
 }
 
 .control-button.active {
-  background: #ffcc00; /* Amarillo sólido */
-  color: #000; /* Negro */
-  border-left: 3px solid #ffaa00; /* Amarillo oscuro */
+  background: #ffcc00;
+  color: #000;
+  border-left: 3px solid #ffaa00;
   font-weight: 600;
 }
 
@@ -88,8 +88,8 @@
   position: fixed;
   bottom: 20px;
   left: 20px;
-  color: #ffcc00; /* Amarillo */
-  background: #1a1a1a; /* Negro */
+  color: #ffcc00;
+  background: #1a1a1a;
   padding: 10px 15px;
   border-radius: 6px;
   font-size: 13px;
@@ -98,15 +98,19 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  border-left: 3px solid #ffcc00; /* Amarillo */
+  border-left: 3px solid #ffcc00;
 }
 
 .status-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #ffcc00; /* Amarillo */
+  background: #ffcc00;
   animation: pulse 2s infinite;
+}
+
+.status-dot.active {
+  animation: pulse 0.5s infinite;
 }
 
 /* Scrollbar */
@@ -123,9 +127,23 @@
   background: #555;
 }
 
-/* Animación del dot */
+/* Animaciones */
 @keyframes pulse {
   0% { opacity: 0.8; }
   50% { opacity: 1; }
   100% { opacity: 0.8; }
+}
+
+/* Efectos de click */
+.control-button:active {
+  transform: scale(0.98);
+}
+
+/* Mute button (opcional) */
+.mute-button {
+  transition: all 0.2s ease;
+}
+
+.mute-button:hover {
+  transform: scale(1.1);
 }
