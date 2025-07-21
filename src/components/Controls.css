@@ -1,216 +1,131 @@
-/* CONTROLS.CSS COMPLETO */
-/* ===================== */
+/* CONTROLS.CSS - VERSIÓN AMARILLO/NEGRO */
+/* ==================================== */
 
-/* Panel Container y Trigger */
+/* Panel Container */
 .panel-container {
   position: fixed;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  height: 100vh;
   z-index: 100;
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+  display: flex;
 }
 
+.panel-container.expanded {
+  transform: translateX(0);
+}
+
+/* Botón Trigger */
 .panel-trigger {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 50px;
-  height: 60px;
-  background: rgba(20, 20, 30, 0.95);
-  border: 2px solid #4a7eff;
-  border-left: none;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 80px;
+  background: #1a1a1a; /* Negro sólido */
+  border: none;
   border-radius: 0 8px 8px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffcc00;
-  font-size: 24px;
-  z-index: 101;
-  box-shadow: 3px 0 15px rgba(0, 0, 0, 0.6);
-  transition: all 0.3s ease;
+  color: #ffcc00; /* Amarillo */
+  font-size: 18px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
 }
 
 .panel-trigger:hover {
-  background: rgba(40, 40, 60, 0.95);
-  transform: scale(1.05) translateX(3px);
+  background: #262626;
+  width: 45px;
 }
 
 /* Panel de Controles */
 .controls-panel {
-  position: relative;
-  left: -320px;
-  opacity: 0;
-  width: 300px;
-  padding: 25px 20px;
-  background-color: rgba(20, 20, 30, 0.95);
-  border-radius: 0 8px 8px 0;
-  border: 2px solid #4a7eff;
-  border-left: none;
-  box-shadow: 5px 0 30px rgba(74, 126, 255, 0.4);
-  backdrop-filter: blur(15px);
-  font-family: 'Orbitron', sans-serif;
-  max-height: 70vh;
+  width: 260px;
+  height: 100%;
+  background: #1a1a1a; /* Negro sólido */
+  padding: 20px 0;
   overflow-y: auto;
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  pointer-events: none;
-  margin-left: 50px;
-}
-
-.panel-container.expanded .controls-panel {
-  left: 0;
-  opacity: 1;
-  pointer-events: all;
+  border-right: 1px solid #333;
 }
 
 /* Botones de Acción */
 .control-button {
-  padding: 16px 20px;
-  margin: 8px 0;
-  border-radius: 6px;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #e6e6e6; /* Gris claro */
+  font-size: 14px;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: left;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid #4a7eff;
-  background: linear-gradient(145deg, #2a3f6e, #1a2552);
-  color: #ffcc00;
-  text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 
-              inset 0 0 15px rgba(74, 126, 255, 0.3);
+  gap: 12px;
 }
 
 .control-button:hover {
-  transform: translateX(8px);
-  box-shadow: 0 0 20px rgba(74, 126, 255, 0.6) !important;
+  background: #262626;
 }
 
 .control-button.active {
-  background: linear-gradient(145deg, #ffcc00, #cc9900);
-  color: #000;
-  border: 1px solid #ffcc00;
-  box-shadow: 0 0 25px rgba(255, 204, 0, 0.8), 
-              inset 0 0 15px rgba(0, 0, 0, 0.4);
-  text-shadow: none;
-}
-
-/* Efectos de Botón */
-.button-highlight {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ff4d4d, #ffcc00);
-  box-shadow: 0 0 15px #ff4d4d;
-}
-
-.button-scanline {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg, 
-    rgba(255,255,255,0.08) 0%, 
-    rgba(255,255,255,0) 50%, 
-    rgba(255,255,255,0.08) 100%
-  );
-  animation: scanline 3.5s linear infinite;
-  pointer-events: none;
+  background: #ffcc00; /* Amarillo sólido */
+  color: #000; /* Negro */
+  border-left: 3px solid #ffaa00; /* Amarillo oscuro */
+  font-weight: 600;
 }
 
 /* Indicador de Estado */
 .status-indicator {
   position: fixed;
-  top: 25px;
-  right: 25px;
-  color: #ffcc00;
-  background-color: rgba(20, 20, 30, 0.95);
-  padding: 14px 28px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
-  z-index: 100;
-  border: 2px solid #4a7eff;
-  font-family: 'Orbitron', sans-serif;
-  text-shadow: 0 0 12px rgba(255, 204, 0, 0.7);
+  bottom: 20px;
+  left: 20px;
+  color: #ffcc00; /* Amarillo */
+  background: #1a1a1a; /* Negro */
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 101;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
+  border-left: 3px solid #ffcc00; /* Amarillo */
 }
 
 .status-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: #555;
-  box-shadow: 0 0 10px #555;
+  background: #ffcc00; /* Amarillo */
   animation: pulse 2s infinite;
-}
-
-.status-dot.active {
-  background: #ff4d4d;
-  box-shadow: 0 0 15px #ff4d4d;
-  animation: pulse 0.5s infinite;
 }
 
 /* Scrollbar */
 .controls-panel::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 .controls-panel::-webkit-scrollbar-thumb {
-  background: #4a7eff;
+  background: #444;
   border-radius: 3px;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
 }
 
-/* Animaciones */
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+.controls-panel::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
+/* Animación del dot */
 @keyframes pulse {
   0% { opacity: 0.8; }
-  50% { opacity: 0.3; }
+  50% { opacity: 1; }
   100% { opacity: 0.8; }
-}
-
-/* Panel Header */
-.panel-header {
-  position: fixed;
-  left: 80px;
-  top: 25px;
-  color: #ffcc00;
-  font-size: 20px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  z-index: 100;
-  background-color: rgba(20, 20, 30, 0.95);
-  padding: 12px 25px;
-  border-radius: 8px;
-  border: 2px solid #4a7eff;
-  box-shadow: 0 0 20px rgba(74, 126, 255, 0.4);
-  font-family: 'Orbitron', sans-serif;
-  text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.panel-container.expanded ~ .panel-header {
-  left: 350px;
 }

@@ -73,30 +73,29 @@ function App() {
 
       {/* Panel desplegable */}
       <div className={`panel-container ${panelExpanded ? 'expanded' : ''}`}>
-        <div 
-          className="panel-trigger"
-          onClick={() => setPanelExpanded(!panelExpanded)}
-        >
-          {panelExpanded ? '◄' : '►'}
-        </div>
-        
-        <div className="controls-panel">
-          {animations.map((anim) => (
-            <button
-              key={anim.name}
-              onClick={() => setCurrentAnimation(
-                currentAnimation === anim.name ? null : anim.name
-              )}
-              className={`control-button ${currentAnimation === anim.name ? 'active' : ''}`}
-            >
-              <span>{anim.label}</span>
-              {currentAnimation === anim.name && (
-                <div className="button-highlight"></div>
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
+  <div className="controls-panel">
+    {animations.map((anim) => (
+      <button
+        key={anim.name}
+        className={`control-button ${currentAnimation === anim.name ? 'active' : ''}`}
+        onClick={() => setCurrentAnimation(anim.name)}
+      >
+        <span>{anim.label}</span>
+      </button>
+    ))}
+  </div>
+  <button 
+    className="panel-trigger"
+    onClick={() => setPanelExpanded(!panelExpanded)}
+  >
+    {panelExpanded ? '◄' : '►'}
+  </button>
+</div>
+
+<div className="status-indicator">
+  <div className="status-dot"></div>
+  <span>{currentAnimation || 'STANDBY'}</span>
+</div>
 
       {/* Indicador de estado simplificado */}
       <div className="status-indicator">
