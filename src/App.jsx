@@ -23,12 +23,14 @@ function App() {
   const [currentAnimation, setCurrentAnimation] = useState(null);
   const [panelExpanded, setPanelExpanded] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [musicPlaying, setMusicPlaying] = useState(false);
   
   // Referencias de audio
   const audioRefs = useRef({
     open: typeof Audio !== 'undefined' ? new Audio('/sounds/panel-open.mp3') : null,
     close: typeof Audio !== 'undefined' ? new Audio('/sounds/panel-close.mp3') : null,
-    action: typeof Audio !== 'undefined' ? new Audio('/sounds/action-select.mp3') : null
+    action: typeof Audio !== 'undefined' ? new Audio('/sounds/action-select.mp3') : null,
+    background: typeof Audio !== 'undefined' ? new Audio('/sounds/background-music.mp3') : null
   });
 
   // Precarga y configuración de sonidos
@@ -37,8 +39,31 @@ function App() {
       if (audio) {
         audio.volume = 0.3;
         audio.load();
+        if (audio === audioRefs.current.background) {
+          audio.loop = true;
+        }
       }
     });
+
+    // Intenta reproducir música de fondo
+    const tryPlayMusic = () => {
+      if (audioRefs.current.background) {
+        audioRefs.current.background.play()
+          .then(() => setMusicPlaying(true))
+          .catch(e => console.log("Autoplay bloqueado:", e));
+      }
+    };
+
+    tryPlayMusic();
+
+    return () => {
+      Object.values(audioRefs.current).forEach(audio => {
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      });
+    };
   }, []);
 
   const playSound = (type) => {
@@ -62,6 +87,29 @@ function App() {
   const selectAction = (actionName) => {
     setCurrentAnimation(actionName);
     playSound('action');
+  };
+
+  const toggleMute = () => {
+    const newMutedState = !isMuted;
+    setIsMuted(newMutedState);
+    
+    // Silenciar/activar todos los sonidos
+    Object.values(audioRefs.current).forEach(audio => {
+      if (audio) {
+        audio.muted = newMutedState;
+      }
+    });
+  };
+
+  const toggleMusic = () => {
+    if (audioRefs.current.background) {
+      if (musicPlaying) {
+        audioRefs.current.background.pause();
+      } else {
+        audioRefs.current.background.play().catch(e => console.log("Error:", e));
+      }
+      setMusicPlaying(!musicPlaying);
+    }
   };
 
   const animations = [
@@ -124,7 +172,26 @@ function App() {
               <span>{anim.label}</span>
             </button>
           ))}
+          
+          {/* Controles de audio en la parte inferior del panel */}
+          <div className="audio-controls">
+            <button 
+              className="audio-control-button"
+              onClick={toggleMusic}
+              title={musicPlaying ? "Pausar música" : "Reproducir música"}
+            >
+              {musicPlaying ? '🎵' : '🔇'}
+            </button>
+            <button 
+              className="audio-control-button"
+              onClick={toggleMute}
+              title={isMuted ? "Activar sonidos" : "Silenciar sonidos"}
+            >
+              {isMuted ? '🔇' : '🔊'}
+            </button>
+          </div>
         </div>
+        
         <button 
           className="panel-trigger"
           onClick={togglePanel}
@@ -133,35 +200,6 @@ function App() {
         </button>
       </div>
 
-      {/* Indicador de estado */}
-      <div className="status-indicator">
-        <div className={`status-dot ${currentAnimation ? 'active' : ''}`}></div>
-        <span>{currentAnimation || 'STANDBY'}</span>
-      </div>
-
-      {/* Botón de mute (opcional) */}
-      <button 
-        className="mute-button"
-        onClick={() => setIsMuted(!isMuted)}
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          zIndex: 100,
-          background: '#1a1a1a',
-          color: '#ffcc00',
-          border: '1px solid #ffcc00',
-          borderRadius: '50%',
-          width: '40px',
-          height: '40px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer'
-        }}
-      >
-        {isMuted ? '🔇' : '🔊'}
-      </button>
     </div>
   );
 }
