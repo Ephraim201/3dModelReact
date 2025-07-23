@@ -1,0 +1,202 @@
+/* ===== PANEL DERECHO - ESTRUCTURA PRINCIPAL ===== */
+.right-panel {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+  font-family: 'Courier New', monospace;
+}
+
+/* ===== PANEL DE NOTICIAS - CAJAS INDIVIDUALES ===== */
+.news-panel {
+  background: rgba(10, 10, 15, 0.9);
+  padding: 12px;
+  border: none;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%
+  );
+  height: 35%; /* Ajuste de altura */
+  overflow: hidden;
+}
+
+.panel-title {
+  color: #f0a020;
+  font-size: 0.9rem;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.news-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: calc(100% - 30px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: white black;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.news-item {
+  background: rgba(50, 50, 60, 0.7);
+  padding: 10px;
+  border-left: 3px solid #f0a020;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 5px),
+    calc(100% - 5px) 100%,
+    0 100%
+  );
+}
+
+.news-bullet {
+  color: #f0a020;
+  margin-right: 6px;
+  font-weight: bold;
+}
+
+.news-text {
+  color: #e0e0e0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.news-time {
+  color: #999;
+  font-size: 0.68rem;
+  font-family: 'Courier New', monospace;
+  display: block;
+  text-align: right;
+}
+
+/* ===== PANEL DE CHAT - ESTILO TÁCTICO ===== */
+.chat-panel {
+  background: rgba(15, 15, 20, 0.85);
+  backdrop-filter: blur(5px);
+  padding: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 15px),
+    calc(100% - 15px) 100%,
+    0 100%
+  );
+  height: 65%; /* Ajuste proporcional */
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(100% - 50px);
+  margin-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: white black;
+}
+
+/* ===== MENSAJES ESTILIZADOS ===== */
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: rgba(30, 30, 40, 0.4);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 5px),
+    calc(100% - 5px) 100%,
+    0 100%
+  );
+}
+
+.message-sender {
+  font-weight: bold;
+  font-size: 0.82rem;
+  margin-right: 6px;
+}
+
+.message.user .message-sender {
+  color: #4cc9f0;
+}
+
+.message.assistant .message-sender {
+  color: #f0a020;
+}
+
+.message-content {
+  color: white;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* ===== FORMULARIO DE MENSAJE ===== */
+.message-form {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-top: 10px;
+}
+
+.message-form input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #333;
+  color: white;
+  padding: 9px 12px;
+  font-size: 0.82rem;
+  border-radius: 0;
+}
+
+.message-form button {
+  background: #f0a020;
+  color: black;
+  border: none;
+  width: 36px;
+  font-weight: bold;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* ===== SCROLLBARS (Consistencia Total) ===== */
+.messages-container::-webkit-scrollbar,
+.news-items::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track,
+.news-items::-webkit-scrollbar-track {
+  background: #000;
+  border-left: 1px solid #333;
+}
+
+.messages-container::-webkit-scrollbar-thumb,
+.news-items::-webkit-scrollbar-thumb {
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 0;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover,
+.news-items::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
+}

@@ -7,6 +7,9 @@ import { useEffect, useState, useRef } from 'react';
 import './styles/global.css';
 import './components/Controls.css';
 
+import ChatInterface from './components/ChatInterface';
+import './styles/helldiver-chat.css';
+
 function CameraSetup() {
   const { camera } = useThree();
   
@@ -24,6 +27,7 @@ function App() {
   const [panelExpanded, setPanelExpanded] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [personality, setPersonality] = useState("amigable"); // Personalidad por defecto
   
   // Referencias de audio
   const audioRefs = useRef({
@@ -198,6 +202,11 @@ function App() {
         >
           {panelExpanded ? '◄' : '►'}
         </button>
+      </div>
+
+      {/* ===== NUEVO: CHAT HELLDIVER ===== */}
+      <div className="helldiver-chat-container">
+        <ChatInterface personality={personality} />
       </div>
 
     </div>
