@@ -200,3 +200,20 @@
 .news-items::-webkit-scrollbar-thumb:hover {
   background: #e0e0e0;
 }
+
+/* Añadir al archivo CSS existente */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.news-item {
+  background: rgba(50, 50, 60, 0.7);
+  padding: 10px;
+  margin-bottom: 8px;
+  border-left: 3px solid #f0a020;
+}
